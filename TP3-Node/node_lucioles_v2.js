@@ -28,10 +28,9 @@ app.use(function(request, response, next) { //Pour eviter les problemes de CORS/
 // MongoDB
 var mongodb = require('mongodb');
 const mongoBaseName = "lucioles"                   // Nom de la base
-//const uri = 'mongodb://localhost:27017/'; //URL de connection
-//const uri = 'mongodb://10.9.128.189:27017/'; //URL de connection		
-//const uri = "mongodb+srv://menez:mettrelevotre@cluster0-x0zyf.mongodb.net/test?retryWrites=true&w=majority";
-const uri="mongodb+srv://jassim:jassim@menezjassim-xfuja.mongodb.net/test?retryWrites=true&w=majority";
+
+//const uri="mongodb+srv://jassim:jassim@menezjassim-xfuja.mongodb.net/test?retryWrites=true&w=majority";
+const uri="mongodb+srv://test:test@cluster0-d9c8u.mongodb.net/test?retryWrites=true&w=majority";
 const MongoClient = require('mongodb').MongoClient;
 const client = new MongoClient(uri, { useNewUrlParser: true, useunifiedtopology : true });
 
