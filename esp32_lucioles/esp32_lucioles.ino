@@ -10,8 +10,8 @@
 #include "net_misc.h"
 
 /*============= GPIO ======================*/
-const int ledPin = 19; // LED Pin
-const int photo_resistor_pin = A0;
+const int ledPin = 22; // LED Pin
+const int photo_resistor_pin = A5;
 OneWire oneWire(23);
 DallasTemperature tempSensor(&oneWire);
 
@@ -47,8 +47,8 @@ void setup () {
   client.setCallback(mqtt_pubcallback) ;
 
   /* Choix d'une identification pour cet ESP ---*/
-  // whoami = "esp1"; 
-  whoami =  String(WiFi.macAddress());
+   whoami = "Zakaria_Gasmi"; 
+  //whoami =  String(WiFi.macAddress());
 }
 
 /*============== MQTT CALLBACK ===================*/
@@ -77,6 +77,15 @@ void mqtt_pubcallback(char* topic, byte* message, unsigned int length) {
     if(messageTemp == "on") {
       Serial.println("on");
       set_pin(ledPin,HIGH);
+
+      delay(10*1000);
+    int sensorValue=analogRead(photo_resistor_pin);
+
+//verifie pendant 10 seconde si la lumiére s'eteint
+        for(int i = 0 ; i < 10 ; i++) {
+              if(sensorValue > 32) { set_pin(ledPin,LOW);}
+              delay (1000); }
+
      
     } else if (messageTemp == "off") {
       Serial.println("off");
@@ -132,7 +141,7 @@ int get_pin(int pin){
 void loop () {
   char data[80];
   String payload; // Payload : "JSON ready" 
-  int32_t period = 60 * 1000l; // Publication period
+  int32_t period = 60 * 100; // Publication period
   
   /* Subscribe to TOPIC_LED if not yet ! */
   if (!client.connected()) {
@@ -141,7 +150,7 @@ void loop () {
   
   /* Publish Temperature & Light periodically */
   payload = "{\"who\": \"";
-  payload += "EL HAROUI";   
+  payload += whoami;   
   payload += "\", \"value\": " ;
   payload += get_temperature(); 
   payload += "}";
@@ -158,6 +167,20 @@ void loop () {
   payload.toCharArray(data, (payload.length() + 1));
   Serial.println(data);
   client.publish(TOPIC_LIGHT, data);
+
+  
+  
+  client.loop();
+  Serial.println("--end loop");
+
+  
+       if( digitalRead(ledPin) == HIGH ) {
+      payload = "{\"who\": \"" + whoami + "\", \"SOS\":\"Yes\" "+"}";
+      payload.toCharArray(data, (payload.length() + 1));
+      Serial.println(data);
+      client.publish(TOPIC_LED,data);
+        }
+  
 
   delay(period);
   client.loop(); // Process MQTT ... obligatoire une fois par loop()

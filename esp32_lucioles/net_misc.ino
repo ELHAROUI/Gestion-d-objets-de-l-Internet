@@ -1,34 +1,31 @@
 #include <WiFi.h>
 
-void print_ip_status() {
+void print_ip_status(){
   Serial.print("\nWiFi connected !\n");
   Serial.print("IP address: ");
   Serial.print(WiFi.localIP());
   Serial.print("\n");
   Serial.print("MAC address: ");
   Serial.print(WiFi.macAddress());
-  Serial.print("\n");
+  Serial.print("\n"); 
 }
 
-void connect_wifi() {
-  // Access Point of the infrastructure
-  //const char* ssid = "HUAWEI-6EC2";
-  //const char *password= "FGY9MLBL";
-  //const char* ssid = "HUAWEI-553A";
-  const char* ssid = "AndroidAP5477";
-  const char *password = "tghi8603";
-  //const char* ssid = "Livebox-7B40";
-  //const char *password = "A1E496EA447FF620CC1C5E54A8";
-  Serial.println("\nConnecting Wifi to ");
-  Serial.println(ssid);
-
-  Serial.print("Attempting to connect ");
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(WiFi.status());
-    delay(1000);
-    Serial.print(".");
-  }
-
-  print_ip_status();
+void connect_wifi(){
+ // Access Point of the infrastructure
+ //const char* ssid = "ZGP10";
+ //const char *password= "chelseafc1"; 
+ //const char* ssid = "HUAWEI-553A";
+ const char* ssid = "ZGP10";
+ const char *password= "chelseafc1"; 
+ Serial.println("\nConnecting Wifi to ");
+ Serial.println(ssid);
+ 
+ Serial.print("Attempting to connect ");
+ WiFi.begin(ssid, password);
+ while(WiFi.status() != WL_CONNECTED){
+   delay(1000);
+   Serial.print(".");
+ }
+ 
+ print_ip_status();
 }
