@@ -6,6 +6,15 @@
 // 
 window.onload = function init() {
 
+
+    var etatLED = "OFF";
+    var estAllumee = false;
+    console.log(etatLED);
+    console.log(estAllumee);
+    document.getElementById("infoSpan").textContent=etatLED;
+
+
+
     //=== Initialisation des traces/charts de la page html
 
     // Apply time settings globally
@@ -164,6 +173,8 @@ window.onload = function init() {
 			   esp);             // ESP targeted
     }
     
+
+
 
     //=== Gestion de la flotte d'ESP =================================
 

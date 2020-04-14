@@ -1,17 +1,128 @@
 <!DOCTYPE html>
 <html>
   <head>
+
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=J9jJ8HH7yXrTG4Cw6n1AfjbEy4Nl_SHF_1TAEncZ1UisVmnqGHqaIGskGlzZ5aNcw3HcQgQ56s7u4BSeoEZIZOji524MlZZ16P2fap36Q6NJicJ8lzSIdmkpWy90fA9t" charset="UTF-8"></script><script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
     <script src="ui_lucioles.js"></script>
+    <script type="text/javascript">
+
+     /* var mqtt;
+      var recconectTimeout = 2000;
+      var host = "http://broker.hivemq.com";
+
+    // Pour allumer la LEd
+    function ledON() {
+              this.etatLED = "ON";
+              this.estAllumee = true;
+              console.log(etatLED);
+              console.log(estAllumee);
+              document.getElementById("infoSpan").textContent=etatLED;
+
+          message = new Paho.MQTT.Message("Salam"); 
+          message.destinationName = "sensors/temp";
+          mqtt.send(message);
+
+
+        };
+
+        function MQTTConnect() {
+              console.log("connecting to : "+host);
+              mqtt = new Paho.MQTT.Client(host,"clientJS");
+              var options = {
+                timeout:3,
+                onSuccess: onConnect,
+              };
+
+              mqtt.connect(options);
+        };*/
+
+            // Pour la connexion et l'envoie de message MQTT
+
+    function ONLED(){
+
+      this.etatLED = "ON";
+      this.estAllumee = true;
+      console.log(etatLED);
+      console.log(estAllumee);
+      document.getElementById("infoSpan").textContent=etatLED;
+
+    client = new Paho.MQTT.Client("broker.hivemq.com",  Number(8000), "EL HAROUI");
+
+    // set callback handlers
+    client.onConnectionLost = onConnectionLost;
+    client.onMessageArrived = onMessageArrived;
+
+    // connect the client
+    client.connect({onSuccess:onConnect});
+
+
+    // called when the client connects
+    function onConnect() {
+    // Once a connection has been made, make a subscription and send a message.
+    console.log("onConnect");
+    client.subscribe("World");
+    message = new Paho.MQTT.Message("on");
+    message.destinationName = "sensors/led";
+    client.send(message);
+    }
+
+    // called when the client loses its connection
+    function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+        console.log("onConnectionLost:"+responseObject.errorMessage);
+     }
+    }
+
+    // called when a message arrives
+        function onMessageArrived(message) {
+            console.log("onMessageArrived:"+message.payloadString);
+    }
+
+  };
+
+
+    </script>
+
+    <style type="text/css">
+      table
+      {
+        margin: 0 auto;
+        }
+      button {
+        float: left;
+        width: 50%;
+        border: 1px solid green;
+        background: blue;
+        color: white;
+        }
+    button:only-of-type {
+        width: 100%;
+        background: blue;
+        color: white;
+        }
+    </style>
+
   </head>
   <body>
     <h1 style="max-width: 600px; margin: 0 auto" ; align="center">ESPs of Lucioles</h1>
+<br>
+         <table>
+          <tr> <td>
+                    <h2> Etat : <span class="badge badge-secondary" id="infoSpan"></span> </h2> </td> </tr>
+              <tr>
+                <td><button onclick="ONLED()" type="button" class="btn btn-success">Allumez</button></td>
+              </tr>
+            <tr></tr>
+        </table>
+        
 
-    <br>
+    <br> <br>
     <div id="container1" style="max-width: 1000px; height: 350px; margin: 0 auto"></div>
     <div id="container2" style="max-width: 1000px; height: 350px; margin: 0 auto"></div>
     
