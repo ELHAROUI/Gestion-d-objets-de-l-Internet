@@ -12,6 +12,7 @@ window.onload = function init() {
     console.log(etatLED);
     console.log(estAllumee);
     document.getElementById("infoSpan").textContent=etatLED;
+    document.getElementById("infoSpan").setAttribute("class", "badge badge-danger");
 
 
 

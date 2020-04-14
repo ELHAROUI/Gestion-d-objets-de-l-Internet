@@ -42,7 +42,7 @@
               mqtt.connect(options);
         };*/
 
-            // Pour la connexion et l'envoie de message MQTT
+    // Pour la connexion et l'envoie de message MQTT
 
     function ONLED(){
 
@@ -51,6 +51,7 @@
       console.log(etatLED);
       console.log(estAllumee);
       document.getElementById("infoSpan").textContent=etatLED;
+      document.getElementById("infoSpan").setAttribute("class", "badge badge-success");
 
     client = new Paho.MQTT.Client("broker.hivemq.com",  Number(8000), "EL HAROUI");
 
@@ -85,8 +86,6 @@
     }
 
   };
-
-
     </script>
 
     <style type="text/css">
@@ -114,7 +113,7 @@
 <br>
          <table>
           <tr> <td>
-                    <h2> Etat : <span class="badge badge-secondary" id="infoSpan"></span> </h2> </td> </tr>
+                    <h2> Etat : <span id="infoSpan"></span> </h2> </td> </tr>
               <tr>
                 <td><button onclick="ONLED()" type="button" class="btn btn-success">Allumez</button></td>
               </tr>
