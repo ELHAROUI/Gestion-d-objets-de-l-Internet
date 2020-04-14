@@ -179,7 +179,7 @@ window.onload = function init() {
 
     //=== Gestion de la flotte d'ESP =================================
 
-    var which_esps = ["EL HAROUI"]
+    var which_esps = ["EL HAROUI","GASMI"]
     for (var i = 0; i < which_esps.length; i++) {
 	process_esp(which_esps, i)
     }
